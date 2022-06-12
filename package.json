@@ -1,0 +1,27 @@
+{
+  "name": "ts-api",
+  "version": "1.0.0",
+  "description": "Serverless Cloud TypeScript API template",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "cloud",
+    "test": "cloud test"
+  },
+  "devDependencies": {
+    "@serverless/cloud": "^2.10.3",
+    "@types/jest": "^26.0.24",
+    "prettier": "^2.5.1"
+  },
+  "serverless": {
+    "app": "global_storage",
+    "org": "juanguren"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
+    "@types/supertest": "^2.0.11",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "jest": "^27.4.7"
+  }
+}
