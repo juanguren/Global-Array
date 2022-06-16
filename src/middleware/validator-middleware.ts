@@ -1,4 +1,4 @@
-import { params, Request, Response } from '@serverless/cloud';
+import { data, params, Request, Response } from '@serverless/cloud';
 import { getExistingKey } from '../utils/utils';
 
 const validateUserToken = (
@@ -57,6 +57,26 @@ const userKeyGuard = async (
   } catch (error) {
     const { code = 500, message } = error;
     res.status(code).json({ warning: message });
+  }
+};
+
+export const validateRecordExists = async (
+  req: Request,
+  res: Response,
+  next: CallableFunction,
+) => {
+  const { key } = req.params;
+  try {
+    const response = await data.get(key);
+    if (response) return next();
+
+    throw {
+      message: `Record does not exist`,
+      code: 404,
+    };
+  } catch (error) {
+    const { message, code } = error;
+    return res.status(code || 500).json({ message });
   }
 };
 
