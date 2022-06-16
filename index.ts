@@ -2,6 +2,7 @@ import { api, Request, Response } from '@serverless/cloud';
 import {
   validateUserToken,
   userKeyGuard,
+  validateRecordExists,
 } from './src/middleware/validator-middleware';
 import { healthCheckCron } from './src/jobs/healthCheck';
 import {
@@ -9,7 +10,6 @@ import {
   deleteDataRecord,
   getDataRecord,
 } from './src/services/cloud.service';
-import { validateRecordExists } from './src/middleware/records-middleware';
 
 // Starts the health cron job
 healthCheckCron();
