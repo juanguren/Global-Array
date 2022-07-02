@@ -1,17 +1,26 @@
-import { data, Request, Response } from '@serverless/cloud';
-import { postDataHandler } from '../helpers/dataHandler';
-import { getExistingKey } from '../middleware/validator-middleware';
 import {
   AcceptedData,
   DataAction,
 } from '../interfaces/dataInterfaces';
+import { data, Request, Response } from '@serverless/cloud';
+import { postDataHandler } from '../helpers/dataHandler';
 import { removeTokenFromPayload } from '../utils/utils';
+import cacheService from './cache/cache.service';
 
 const getDataRecord = async (req: Request, res: Response) => {
   const { key } = req.params;
+
   try {
-    const response = await data.get(key);
+    const cached = await cacheService.getData(key);
+    if (cached) {
+      const payload = removeTokenFromPayload(cached);
+      return res.status(200).json({ data: payload });
+    }
+
+    const response = await utilsGetKey(key);
     if (response) {
+      await cacheService.setData({ key, value: response as any });
+
       const payload = removeTokenFromPayload(response);
       return res.status(200).json({ data: payload });
     }
@@ -20,8 +29,7 @@ const getDataRecord = async (req: Request, res: Response) => {
       code: 404,
     };
   } catch (error) {
-    const { message, code } = error;
-    return res.status(code || 500).json({ message });
+    return res.send(error);
   }
 };
 
@@ -37,7 +45,7 @@ const createDataRecord = async (req: Request, res: Response) => {
         content,
         instructions,
       };
-      if (await getExistingKey(keyName)) action = DataAction.UPDATE;
+      if (await utilsGetKey(keyName)) action = DataAction.UPDATE;
 
       return await postDataHandler(req, res, data, action);
     } else {
@@ -64,4 +72,12 @@ const deleteDataRecord = async (req: Request, res: Response) => {
   }
 };
 
-export { getDataRecord, createDataRecord, deleteDataRecord };
+const utilsGetKey = async (key: string): Promise<any> =>
+  await data.get(key);
+
+export {
+  getDataRecord,
+  createDataRecord,
+  deleteDataRecord,
+  utilsGetKey,
+};

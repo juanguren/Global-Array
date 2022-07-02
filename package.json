@@ -9,7 +9,7 @@
     "test": "cloud test"
   },
   "devDependencies": {
-    "@serverless/cloud": "^2.10.3",
+    "@serverless/cloud": "^2.10.9",
     "@types/jest": "^26.0.24",
     "prettier": "^2.5.1"
   },
@@ -22,6 +22,7 @@
     "@types/supertest": "^2.0.11",
     "axios": "^0.24.0",
     "dotenv": "^10.0.0",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "redis": "^4.1.0"
   }
 }

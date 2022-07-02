@@ -1,5 +1,6 @@
-import { data, params, Request, Response } from '@serverless/cloud';
-import { getExistingKey } from '../utils/utils';
+import { params, Request, Response } from '@serverless/cloud';
+import { utilsGetKey } from '../services/cloud.service';
+import cacheService from '../services/cache/cache.service';
 
 const validateUserToken = (
   req: Request,
@@ -38,7 +39,8 @@ const userKeyGuard = async (
   try {
     if (req.method == 'POST') {
       const { keyName } = req.body.instructions;
-      const data = await getExistingKey(keyName);
+      const data = await utilsGetKey(keyName);
+
       if (data) {
         if (api_key == data.token) return next();
         throw keyNameClaimedErrorMsg;
@@ -46,7 +48,7 @@ const userKeyGuard = async (
       return next();
     } else {
       const { key } = req.params;
-      const data = await getExistingKey(key);
+      const data = await utilsGetKey(key);
 
       if (data) {
         if (api_key == data.token) return next();
@@ -67,7 +69,10 @@ export const validateRecordExists = async (
 ) => {
   const { key } = req.params;
   try {
-    const response = await data.get(key);
+    const cached = await cacheService.getData(key);
+    if (cached) return next();
+
+    const response = await utilsGetKey(key);
     if (response) return next();
 
     throw {
@@ -80,4 +85,4 @@ export const validateRecordExists = async (
   }
 };
 
-export { getExistingKey, validateUserToken, userKeyGuard };
+export { validateUserToken, userKeyGuard };

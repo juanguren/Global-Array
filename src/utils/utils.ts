@@ -5,7 +5,4 @@ const removeTokenFromPayload = (payload: any) => {
   return payload;
 };
 
-const getExistingKey = async (key: string): Promise<any> =>
-  await data.get(key);
-
-export { removeTokenFromPayload, getExistingKey };
+export { removeTokenFromPayload };
