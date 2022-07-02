@@ -72,7 +72,12 @@ const deleteDataRecord = async (req: Request, res: Response) => {
   }
 };
 
-export const utilsGetKey = async (key: string): Promise<any> =>
+const utilsGetKey = async (key: string): Promise<any> =>
   await data.get(key);
 
-export { getDataRecord, createDataRecord, deleteDataRecord };
+export {
+  getDataRecord,
+  createDataRecord,
+  deleteDataRecord,
+  utilsGetKey,
+};
