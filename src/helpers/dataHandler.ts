@@ -32,10 +32,10 @@ const postDataHandler = async (
       useOptions,
     )) as object;
 
-    const cachedExists = await cacheService.getData(keyName);
+    const cachedExists = await cacheService.getCachedData(keyName);
 
     if (cachedExists) {
-      await cacheService.deleteData(keyName);
+      await cacheService.deleteCachedData(keyName);
     }
 
     const payload = removeTokenFromPayload(record);
