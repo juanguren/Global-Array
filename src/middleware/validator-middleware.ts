@@ -1,6 +1,5 @@
 import { params, Request, Response } from '@serverless/cloud';
 import { utilsGetKey } from '../services/cloud.service';
-import cacheService from '../services/cache/cache.service';
 
 const validateUserToken = (
   req: Request,
@@ -69,12 +68,9 @@ export const validateRecordExists = async (
 ) => {
   const { key } = req.params;
   try {
-    const cached = await cacheService.getData(key);
-    if (cached) return next();
-
     const response = await utilsGetKey(key);
     if (response) return next();
-
+    
     throw {
       message: `Record does not exist`,
       code: 404,

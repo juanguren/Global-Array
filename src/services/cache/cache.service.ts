@@ -18,7 +18,7 @@ class CacheService {
     );
   }
 
-  async getData(key: string) {
+  async getCachedData(key: string) {
     try {
       const response = await this.redisClient.get(key);
       return JSON.parse(response);
@@ -27,7 +27,7 @@ class CacheService {
     }
   }
 
-  async setData(cacheData: CacheTypeDTO) {
+  async setCacheData(cacheData: CacheTypeDTO) {
     let { key, value } = cacheData;
 
     try {
@@ -37,7 +37,7 @@ class CacheService {
     }
   }
 
-  async deleteData(key: string) {
+  async deleteCachedData(key: string) {
     try {
       await this.redisClient.del(key);
     } catch (error) {
