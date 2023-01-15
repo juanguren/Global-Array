@@ -5,7 +5,7 @@ import { requestEmailService } from '../services/sendGrid.service';
 const healthCheckCron = (): void => {
   const { INSTANCE_BASE_URL, MY_EMAIL = undefined } = params;
 
-  schedule.every('4 hours', async () => {
+  schedule.every('24 hours', async () => {
     try {
       if (INSTANCE_BASE_URL) {
         const health = await requestHealthEndpoint(INSTANCE_BASE_URL);
