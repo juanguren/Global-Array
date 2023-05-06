@@ -4,7 +4,6 @@ import {
   DataAction,
 } from '../interfaces/dataInterfaces';
 import { removeTokenFromPayload } from '../utils/utils';
-import cacheService from '../services/cache/cache.service';
 
 const postDataHandler = async (
   req: Request,
@@ -31,12 +30,6 @@ const postDataHandler = async (
       content,
       useOptions,
     )) as object;
-
-    const cachedExists = await cacheService.getCachedData(keyName);
-
-    if (cachedExists) {
-      await cacheService.deleteCachedData(keyName);
-    }
 
     const payload = removeTokenFromPayload(record);
 

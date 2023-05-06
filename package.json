@@ -18,11 +18,17 @@
     "org": "juanguren"
   },
   "dependencies": {
+    "@ampt/api": "^0.0.1-beta.7",
+    "@ampt/cloud": "^0.0.1-beta.2",
     "@sendgrid/mail": "^7.6.0",
     "@types/supertest": "^2.0.11",
     "axios": "^0.24.0",
     "dotenv": "^10.0.0",
     "jest": "^27.4.7",
-    "redis": "^4.1.0"
+    "redis": "^4.6.6"
+  },
+  "ampt": {
+    "org": "juanfe7174170",
+    "app": "global_storage"
   }
 }

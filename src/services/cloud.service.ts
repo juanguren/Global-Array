@@ -5,22 +5,13 @@ import {
 import { data, Request, Response } from '@serverless/cloud';
 import { postDataHandler } from '../helpers/dataHandler';
 import { removeTokenFromPayload } from '../utils/utils';
-import cacheService from './cache/cache.service';
 
 const getDataRecord = async (req: Request, res: Response) => {
   const { key } = req.params;
 
   try {
-    const cached = await cacheService.getCachedData(key);
-    if (cached) {
-      const payload = removeTokenFromPayload(cached);
-      return res.status(200).json({ data: payload });
-    }
-
     const response = await utilsGetKey(key);
     if (response) {
-      await cacheService.setCacheData({ key, value: response as any });
-
       const payload = removeTokenFromPayload(response);
       return res.status(200).json({ data: payload });
     }
@@ -63,8 +54,6 @@ const deleteDataRecord = async (req: Request, res: Response) => {
     const response = await data.remove(keyName);
 
     if (response) {
-      await cacheService.deleteCachedData(keyName);
-
       return res
         .status(200)
         .json({ message: 'Entry deleted succesfully' });

@@ -6,7 +6,7 @@ import { params } from '@serverless/cloud';
 const { CACHE_USERNAME, CACHE_PASSWORD, CACHE_HOST, CACHE_PORT } =
   params;
 
-class CacheService {
+export class CacheService {
   private readonly redisClient: RedisClientType;
   constructor() {
     this.redisClient = createClient({
@@ -45,5 +45,3 @@ class CacheService {
     }
   }
 }
-
-export default new CacheService();
